@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { User } from "../models/users";
-import { userlogIn, jwtSign } from "../services/auths";
+import { userlogIn, jwtSign, verifyTokens } from "../services/auths";
 
 export const logIn: RequestHandler = async (req, res, next) => {
     try {
@@ -17,6 +17,50 @@ export const logIn: RequestHandler = async (req, res, next) => {
             token: await jwtSign(result)
         });
     } catch( ex ) {
+        throw ex;
+    }
+}
+
+export const verifyToken: RequestHandler = async (req, res, next) => {
+    try {
+        const bearerHeader = req.headers['authorization'];
+        if(typeof bearerHeader !== 'undefined') {
+
+            const bearer = bearerHeader.split(' ');
+
+            //Get Token arrray by spliting
+            const bearerToken = bearer[1];
+            (req as unknown as {token: string}).token = bearerToken;
+
+            let result = await verifyTokens(bearerToken);
+            (req as unknown as {authData: any}).authData = result;
+            next();
+        } else{
+            throw 'Header is not defined.';
+        }
+    } catch(ex) {
+        throw ex;
+    }
+}
+
+export const decodeToken: RequestHandler = async (req, res, next) => {
+    try {
+        const bearerHeader = req.headers['authorization'];
+        if(typeof bearerHeader !== 'undefined') {
+
+            const bearer = bearerHeader.split(' ');
+
+            //Get Token arrray by spliting
+            const bearerToken = bearer[1];
+            (req as unknown as {token: string}).token = bearerToken;
+
+            let result = await verifyTokens(bearerToken);
+            (req as unknown as {authData: any}).authData = result;
+            res.status(200).send(result);
+        } else{
+            throw 'Header is not defined.';
+        }
+    } catch(ex) {
         throw ex;
     }
 }

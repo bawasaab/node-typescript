@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jwtSign = exports.userlogIn = void 0;
+exports.verifyTokens = exports.jwtSign = exports.userlogIn = void 0;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const connection_1 = __importDefault(require("../db/connection"));
@@ -27,7 +27,7 @@ const userlogIn = async (data) => {
     }
 };
 exports.userlogIn = userlogIn;
-function myPromise(user) {
+function createToken(user) {
     return new Promise((resolve, reject) => {
         (0, jsonwebtoken_1.sign)({ user }, JWT_SECRET, { expiresIn: 60 * 60 }, async (err, token) => {
             if (err) {
@@ -39,9 +39,21 @@ function myPromise(user) {
         });
     });
 }
+function verifyTokenn(token) {
+    return new Promise((resolve, reject) => {
+        (0, jsonwebtoken_1.verify)(token, JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(decoded);
+            }
+        });
+    });
+}
 const jwtSign = async (user) => {
     try {
-        let result = await myPromise(user);
+        let result = await createToken(user);
         return result;
     }
     catch (ex) {
@@ -49,3 +61,13 @@ const jwtSign = async (user) => {
     }
 };
 exports.jwtSign = jwtSign;
+const verifyTokens = async (token) => {
+    try {
+        let result = await verifyTokenn(token);
+        return result;
+    }
+    catch (ex) {
+        throw ex;
+    }
+};
+exports.verifyTokens = verifyTokens;
