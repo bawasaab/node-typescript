@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response, NextFunction } from "express";
 import { User } from "../models/users";
 import { userlogIn, jwtSign, verifyTokens } from "../services/auths";
 
@@ -74,5 +74,27 @@ export const decodeToken: RequestHandler = async (req, res, next) => {
         res.status(500).send({
             msg: ex.toString(),
         });
+    }
+}
+
+export const HasRole = (role: string[]) => {
+    return function(req: Request, res: Response, next: NextFunction) {
+        // if (role !== (req as unknown as {authData: any}).authData.user.role) {
+        //   res.status(401).send({
+        //     message: "Access Denied!"
+        //   });
+        // } else {
+        //     next();
+        // }
+
+        let currentUser = <never>(req as unknown as {authData: any}).authData.user;
+        let currentUserRole = currentUser['role'];
+        if (!role.includes( currentUserRole )) {
+            res.status(401).send({
+              message: "Access Denied!"
+            });
+        } else {
+            next();
+        }
     }
 }

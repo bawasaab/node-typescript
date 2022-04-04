@@ -37,7 +37,7 @@ const upload = (0, multer_1.default)({
     limits: { fileSize: 1000000 } // (1000000 bytes = 1MB)
 });
 const router = (0, express_1.Router)();
-router.get('/list', [auths_1.verifyToken], jetDevs_1.listFileRecords);
+router.get('/list', [auths_1.verifyToken, (0, auths_1.HasRole)(['USER', 'ADMIN'])], jetDevs_1.listFileRecords);
 router.get('/list-files', jetDevs_1.listFiles);
 router.post('/:filename', upload.single('uploaded_file'), jetDevs_1.fileReader);
 router.delete('/:id', jetDevs_1.deleteFile);

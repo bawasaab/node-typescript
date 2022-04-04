@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decodeToken = exports.verifyToken = exports.logIn = void 0;
+exports.HasRole = exports.decodeToken = exports.verifyToken = exports.logIn = void 0;
 const users_1 = require("../models/users");
 const auths_1 = require("../services/auths");
 const logIn = async (req, res, next) => {
@@ -74,3 +74,25 @@ const decodeToken = async (req, res, next) => {
     }
 };
 exports.decodeToken = decodeToken;
+const HasRole = (role) => {
+    return function (req, res, next) {
+        // if (role !== (req as unknown as {authData: any}).authData.user.role) {
+        //   res.status(401).send({
+        //     message: "Access Denied!"
+        //   });
+        // } else {
+        //     next();
+        // }
+        let currentUser = req.authData.user;
+        let currentUserRole = currentUser['role'];
+        if (!role.includes(currentUserRole)) {
+            res.status(401).send({
+                message: "Access Denied!"
+            });
+        }
+        else {
+            next();
+        }
+    };
+};
+exports.HasRole = HasRole;
