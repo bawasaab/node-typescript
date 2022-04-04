@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import Path from "path";
 import { json } from "body-parser";
 import todosRouter from "./routes/todos";
 import jetDevsRouter from "./routes/jetDevs";
@@ -6,6 +7,8 @@ import jetDevsRouter from "./routes/jetDevs";
 const app = express();
 
 app.use(json());
+
+app.use("/uploads", express.static(Path.join(__dirname, '/uploads')));
 
 app.use('/todos', todosRouter);
 app.use('/jetdevs', jetDevsRouter);

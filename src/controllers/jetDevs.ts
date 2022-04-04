@@ -24,19 +24,13 @@ export const fileReader: RequestHandler = async (req, res, next) => {
 
     try {
 
-        // const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
         let fileName = (req.params.imageDetails as unknown as {fullFileNameWithPath: string}).fullFileNameWithPath;
-        console.log('fileName', fileName);
         const file = reader.readFile(fileName);
-
         let data: any = []
-        
         const sheets = file.SheetNames
         
-        for(let i = 0; i < sheets.length; i++)
-        {
-            const temp = reader.utils.sheet_to_json(file.Sheets[file.SheetNames[i]]);
-        
+        for(let i = 0; i < sheets.length; i++) {
+            const temp = reader.utils.sheet_to_json(file.Sheets[file.SheetNames[i]]);        
             temp.forEach((res: any) => {
                 data.push(res)
             })
@@ -57,7 +51,7 @@ export const fileReader: RequestHandler = async (req, res, next) => {
     }    
 }
 
-export const listFileRecords:  RequestHandler = async (req, res, next) => {
+export const listFileRecords: RequestHandler = async (req, res, next) => {
     try {
 
         let result = await getFileRecords();

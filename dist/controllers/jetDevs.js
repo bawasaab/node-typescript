@@ -43,9 +43,7 @@ const insertTestC = async (req, res, next) => {
 exports.insertTestC = insertTestC;
 const fileReader = async (req, res, next) => {
     try {
-        // const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
         let fileName = req.params.imageDetails.fullFileNameWithPath;
-        console.log('fileName', fileName);
         const file = reader.readFile(fileName);
         let data = [];
         const sheets = file.SheetNames;
