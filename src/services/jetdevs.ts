@@ -1,24 +1,47 @@
-import connection from "../db/connection";
+import Connection from "../db/connection";
 import { Jetdevs } from "../models/jetdevs";
 
-export const insert = (data: Jetdevs, cb: Function) => {
-    
-    connection.execute(
-        'INSERT INTO fileuploads(filepath, data) VALUES ?, ?',
-        [data.filepath, data.data],
-        function(err, results, fields) {
-          console.log('results', results);
-          console.log('fields', fields);
-          cb(results, fields)
-        }
-    );
+let obj = new Connection();
 
-    // try {
+export const getTest = async (data: Jetdevs) => {
+  try {
 
-    //     const result = await connection.execute('INSERT INTO fileuploads(filepath, data) VALUES ?, ?', [data.filepath, data.data]);
-    //     console.log('result', result);
-    //     return result;
-    // } catch(ex) {
-    //     throw ex;
-    // }
+    let obj = new Connection();
+    let db = await obj.connect();
+    const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [1]);
+    return {
+      rows,
+      // fields
+    };
+  } catch(ex) {
+    throw ex;
+  }
+}
+
+export const insertTest = async (data: Jetdevs) => {
+  try {
+
+    let obj = new Connection();
+    let db = await obj.connect();
+    const [rows] = await db.execute('INSERT INTO fileuploads SET data=?, filepath=?', [data.data, data.filepath]);
+    return {
+      rows
+    };
+  } catch(ex) {
+    throw ex;
+  }
+}
+
+export const insert = async (data: Jetdevs) => {
+
+    try {
+
+      let db = await obj.connect();
+      const [rows] = await db.execute('INSERT INTO fileuploads SET data=?, filepath=?', [data.data, data.filepath]);
+      return {
+        rows
+      };
+    } catch(ex) {
+      throw ex;
+    }
 }

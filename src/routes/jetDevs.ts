@@ -1,5 +1,5 @@
 import { Router, Request } from "express";
-import { fileReader, uploadFile } from "../controllers/jetDevs";
+import { fileReader, uploadFile, insertTestC } from "../controllers/jetDevs";
 
 import { config } from "dotenv";
 config();
@@ -7,12 +7,13 @@ config();
 import path from "path";
 import multer from "multer";
 
-const fileUploadPwd = process.env.PWD;
+// const fileUploadPwd = process.env.PWD;
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+console.log('FILE_UPLOAD_PATH', FILE_UPLOAD_PATH);
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file: any, cb: any) {
-        cb(null, fileUploadPwd)
+        cb(null, FILE_UPLOAD_PATH)
   },
   filename: function (req, file, cb) {
     
@@ -21,7 +22,8 @@ const storage = multer.diskStorage({
     let newFileName = id;
     let extention = path.extname(originalname);
     let fullFileName = newFileName + extention;
-    let fullFileNameWithPath = fileUploadPwd! + FILE_UPLOAD_PATH + fullFileName;
+    // let fullFileNameWithPath = fileUploadPwd! + FILE_UPLOAD_PATH + fullFileName;
+    let fullFileNameWithPath = FILE_UPLOAD_PATH + fullFileName;
     (req.params as {imageDetails: any}).imageDetails = {
       fileOriginalname : originalname,
       newFileName : newFileName,
@@ -43,5 +45,7 @@ const router = Router();
 router.post('/', fileReader);
 
 router.post('/upload/:id', upload.single('profile_pic'), uploadFile);
+
+router.post('/test', insertTestC);
 
 export default router;

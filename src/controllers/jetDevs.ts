@@ -1,12 +1,24 @@
 import { RequestHandler } from "express";
 import * as reader from "xlsx";
-import { insert } from "../services/jetdevs";
+import { insert, insertTest } from "../services/jetdevs";
 
 import { config } from "dotenv";
 import { Jetdevs } from "../models/jetdevs";
 config();
 
 const fileUploadPath = process.env.PWD;
+
+export const insertTestC: RequestHandler = async (req, res, next) => {
+    let in_data: Jetdevs = {
+        data: 'data',
+        filepath: 'filepath'
+    };
+    let result = await insertTest(in_data);
+    res.status(201).send({
+        msg: 'Created Successfully',
+        result
+    });
+}
 
 export const fileReader: RequestHandler = (req, res, next) => {
 
@@ -28,26 +40,9 @@ export const fileReader: RequestHandler = (req, res, next) => {
         }
 
         let in_data: Jetdevs = {
-            // data: JSON.stringify(data),
-            data: 'test',
+            data: JSON.stringify(data),
             filepath: fileUploadPath +'/dist/uploads/' + '/test.xlsx'
         };
-        insert(in_data, (results:any, fields: any) => {
-            res.status(201).json({
-                message: 'file data',
-                createTodo: data,
-                result: {
-                    results,
-                    fields
-                }
-            });
-        });
-
-        // res.status(201).json({
-        //     message: 'file data',
-        //     createTodo: data,
-        //     result: result
-        // });
     } catch(ex) {
         throw ex;
     }    
@@ -59,3 +54,5 @@ export const uploadFile: RequestHandler = (req, res, next) => {
         params: req.params
     });
 }
+
+
