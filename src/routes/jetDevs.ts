@@ -7,9 +7,7 @@ config();
 import path from "path";
 import multer from "multer";
 
-// const fileUploadPwd = process.env.PWD;
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
-console.log('FILE_UPLOAD_PATH', FILE_UPLOAD_PATH);
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file: any, cb: any) {
@@ -17,12 +15,11 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     
-    let id = req.params.id;
+    let id = req.params.filename;
     let originalname = file.originalname;
     let newFileName = id;
     let extention = path.extname(originalname);
-    let fullFileName = newFileName + extention;
-    // let fullFileNameWithPath = fileUploadPwd! + FILE_UPLOAD_PATH + fullFileName;
+    let fullFileName = newFileName+'-'+ Date.now() +'-'+ Math.random() + extention;
     let fullFileNameWithPath = FILE_UPLOAD_PATH + fullFileName;
     (req.params as {imageDetails: any}).imageDetails = {
       fileOriginalname : originalname,
@@ -42,10 +39,6 @@ const upload = multer({
 
 const router = Router();
 
-router.post('/', fileReader);
-
-router.post('/upload/:id', upload.single('uploaded_file'), uploadFile);
-
-router.post('/test', insertTestC);
+router.post('/:filename', upload.single('uploaded_file'), fileReader);
 
 export default router;

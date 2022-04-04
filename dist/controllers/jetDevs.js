@@ -43,7 +43,7 @@ const insertTestC = async (req, res, next) => {
 exports.insertTestC = insertTestC;
 const fileReader = async (req, res, next) => {
     try {
-        const file = reader.readFile(FILE_UPLOAD_PATH + '/abc.xlsx');
+        const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
         let data = [];
         const sheets = file.SheetNames;
         for (let i = 0; i < sheets.length; i++) {

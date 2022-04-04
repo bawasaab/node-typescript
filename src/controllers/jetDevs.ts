@@ -24,7 +24,7 @@ export const fileReader: RequestHandler = async (req, res, next) => {
 
     try {
 
-        const file = reader.readFile(FILE_UPLOAD_PATH + '/abc.xlsx');
+        const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
 
         let data: any = []
         

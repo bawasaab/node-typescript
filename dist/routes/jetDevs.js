@@ -9,20 +9,17 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const path_1 = __importDefault(require("path"));
 const multer_1 = __importDefault(require("multer"));
-// const fileUploadPwd = process.env.PWD;
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
-console.log('FILE_UPLOAD_PATH', FILE_UPLOAD_PATH);
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         cb(null, FILE_UPLOAD_PATH);
     },
     filename: function (req, file, cb) {
-        let id = req.params.id;
+        let id = req.params.filename;
         let originalname = file.originalname;
         let newFileName = id;
         let extention = path_1.default.extname(originalname);
-        let fullFileName = newFileName + extention;
-        // let fullFileNameWithPath = fileUploadPwd! + FILE_UPLOAD_PATH + fullFileName;
+        let fullFileName = newFileName + '-' + Date.now() + '-' + Math.random() + extention;
         let fullFileNameWithPath = FILE_UPLOAD_PATH + fullFileName;
         req.params.imageDetails = {
             fileOriginalname: originalname,
@@ -39,7 +36,5 @@ const upload = (0, multer_1.default)({
     limits: { fileSize: 1000000 } // (1000000 bytes = 1MB)
 });
 const router = (0, express_1.Router)();
-router.post('/', jetDevs_1.fileReader);
-router.post('/upload/:id', upload.single('uploaded_file'), jetDevs_1.uploadFile);
-router.post('/test', jetDevs_1.insertTestC);
+router.post('/:filename', upload.single('uploaded_file'), jetDevs_1.fileReader);
 exports.default = router;
