@@ -6,7 +6,7 @@ import { config } from "dotenv";
 import { Jetdevs } from "../models/jetdevs";
 config();
 
-const fileUploadPath = process.env.PWD;
+const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
 
 export const insertTestC: RequestHandler = async (req, res, next) => {
     let in_data: Jetdevs = {
@@ -20,11 +20,11 @@ export const insertTestC: RequestHandler = async (req, res, next) => {
     });
 }
 
-export const fileReader: RequestHandler = (req, res, next) => {
+export const fileReader: RequestHandler = async (req, res, next) => {
 
     try {
 
-        const file = reader.readFile(fileUploadPath +'/dist/uploads/' + '/test.xlsx');
+        const file = reader.readFile(FILE_UPLOAD_PATH + '/abc.xlsx');
 
         let data: any = []
         
@@ -41,8 +41,14 @@ export const fileReader: RequestHandler = (req, res, next) => {
 
         let in_data: Jetdevs = {
             data: JSON.stringify(data),
-            filepath: fileUploadPath +'/dist/uploads/' + '/test.xlsx'
+            filepath: FILE_UPLOAD_PATH + 'abc.xlsx'
         };
+
+        let result = await insert(in_data);
+        res.status(201).send({
+            in_data,
+            result
+        });
     } catch(ex) {
         throw ex;
     }    
