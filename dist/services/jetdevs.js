@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insert = exports.insertTest = exports.getTest = void 0;
+exports.deleteById = exports.getById = exports.getFiles = exports.insert = exports.insertTest = exports.getTest = void 0;
 const connection_1 = __importDefault(require("../db/connection"));
 let obj = new connection_1.default();
 const getTest = async (data) => {
@@ -48,3 +48,35 @@ const insert = async (data) => {
     }
 };
 exports.insert = insert;
+const getFiles = async () => {
+    try {
+        let db = await obj.connect();
+        const [rows, fields] = await db.execute('SELECT * FROM `fileuploads`', []);
+        return {
+            rows,
+            // fields
+        };
+    }
+    catch (ex) {
+        throw ex;
+    }
+};
+exports.getFiles = getFiles;
+const getById = async (id) => {
+    let db = await obj.connect();
+    const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [id]);
+    return {
+        rows,
+        // fields
+    };
+};
+exports.getById = getById;
+const deleteById = async (id) => {
+    let db = await obj.connect();
+    const [rows, fields] = await db.execute('DELETE FROM `fileuploads` WHERE `id` = ?', [id]);
+    return {
+        rows,
+        // fields
+    };
+};
+exports.deleteById = deleteById;

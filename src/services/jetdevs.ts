@@ -45,3 +45,36 @@ export const insert = async (data: Jetdevs) => {
       throw ex;
     }
 }
+
+export const getFiles = async() => {
+
+  try { 
+
+    let db = await obj.connect();
+    const [rows, fields] = await db.execute('SELECT * FROM `fileuploads`', []);
+    return {
+      rows,
+      // fields
+    };
+  } catch(ex) {
+    throw ex;
+  }
+}
+
+export const getById = async(id: Number) => {
+  let db = await obj.connect();
+    const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [id]);
+    return {
+      rows,
+      // fields
+    };
+}
+
+export const deleteById = async(id: Number) => {
+  let db = await obj.connect();
+    const [rows, fields] = await db.execute('DELETE FROM `fileuploads` WHERE `id` = ?', [id]);
+    return {
+      rows,
+      // fields
+    };
+}

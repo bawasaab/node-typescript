@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadFile = exports.fileReader = exports.insertTestC = void 0;
+exports.deleteFile = exports.listFiles = exports.fileReader = exports.insertTestC = void 0;
 const reader = __importStar(require("xlsx"));
 const jetdevs_1 = require("../services/jetdevs");
 const dotenv_1 = require("dotenv");
@@ -43,7 +43,10 @@ const insertTestC = async (req, res, next) => {
 exports.insertTestC = insertTestC;
 const fileReader = async (req, res, next) => {
     try {
-        const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
+        // const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
+        let fileName = req.params.imageDetails.fullFileNameWithPath;
+        console.log('fileName', fileName);
+        const file = reader.readFile(fileName);
         let data = [];
         const sheets = file.SheetNames;
         for (let i = 0; i < sheets.length; i++) {
@@ -54,7 +57,7 @@ const fileReader = async (req, res, next) => {
         }
         let in_data = {
             data: JSON.stringify(data),
-            filepath: FILE_UPLOAD_PATH + 'abc.xlsx'
+            filepath: fileName
         };
         let result = await (0, jetdevs_1.insert)(in_data);
         res.status(201).send({
@@ -67,10 +70,35 @@ const fileReader = async (req, res, next) => {
     }
 };
 exports.fileReader = fileReader;
-const uploadFile = (req, res, next) => {
-    res.status(200).json({
-        message: 'file uploaded',
-        params: req.params
-    });
+const listFiles = async (req, res, next) => {
+    try {
+        let result = await (0, jetdevs_1.getFiles)();
+        res.status(200).send({
+            result
+        });
+    }
+    catch (ex) {
+        throw ex;
+    }
 };
-exports.uploadFile = uploadFile;
+exports.listFiles = listFiles;
+const deleteFile = async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        let result = await (0, jetdevs_1.getById)(id);
+        if (result && result.rows.length) {
+            let row = result.rows[0];
+            var fs = require('fs');
+            let filePath = row.filepath;
+            fs.unlinkSync(filePath);
+            let isDeleted = await (0, jetdevs_1.deleteById)(id);
+            res.status(200).send({
+                isDeleted
+            });
+        }
+    }
+    catch (ex) {
+        throw ex;
+    }
+};
+exports.deleteFile = deleteFile;

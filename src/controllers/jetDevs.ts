@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as reader from "xlsx";
-import { insert, insertTest } from "../services/jetdevs";
+import { insert, insertTest, getFiles, getById, deleteById } from "../services/jetdevs";
 
 import { config } from "dotenv";
 import { Jetdevs } from "../models/jetdevs";
@@ -24,7 +24,10 @@ export const fileReader: RequestHandler = async (req, res, next) => {
 
     try {
 
-        const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
+        // const file = reader.readFile(FILE_UPLOAD_PATH + '/deepak.xlsx');
+        let fileName = (req.params.imageDetails as unknown as {fullFileNameWithPath: string}).fullFileNameWithPath;
+        console.log('fileName', fileName);
+        const file = reader.readFile(fileName);
 
         let data: any = []
         
@@ -41,7 +44,7 @@ export const fileReader: RequestHandler = async (req, res, next) => {
 
         let in_data: Jetdevs = {
             data: JSON.stringify(data),
-            filepath: FILE_UPLOAD_PATH + 'abc.xlsx'
+            filepath: fileName
         };
 
         let result = await insert(in_data);
@@ -54,11 +57,38 @@ export const fileReader: RequestHandler = async (req, res, next) => {
     }    
 }
 
-export const uploadFile: RequestHandler = (req, res, next) => {
-    res.status(200).json({
-        message: 'file uploaded',
-        params: req.params
-    });
+export const listFiles:  RequestHandler = async (req, res, next) => {
+    try {
+
+        let result = await getFiles();
+        res.status(200).send({
+            result
+        });
+    } catch(ex) {
+        throw ex;
+    }
 }
 
+export const deleteFile: RequestHandler = async (req, res, next) => {
 
+    try {
+
+        let id = (req.params as unknown as {id: Number}).id;
+        let result = await getById(id);
+        if( result && result.rows.length ) {
+            let row = result.rows[0];
+            
+            var fs = require('fs');
+            let filePath = row.filepath;
+            fs.unlinkSync(filePath);
+
+            let isDeleted = await deleteById(id);
+
+            res.status(200).send({
+                isDeleted
+            });
+        }
+    } catch(ex) {
+        throw ex;
+    }
+}
