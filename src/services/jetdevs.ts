@@ -46,7 +46,7 @@ export const insert = async (data: Jetdevs) => {
     }
 }
 
-export const getFiles = async() => {
+export const getFileRecords = async() => {
 
   try { 
 
@@ -77,4 +77,16 @@ export const deleteById = async(id: Number) => {
       rows,
       // fields
     };
+}
+
+export const getFiles = async () => {
+  try {
+
+    const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+    const fs = require('fs');
+    const files = await fs.promises.readdir( FILE_UPLOAD_PATH );
+    return files;
+  } catch(ex) {
+    throw ex;
+  }
 }

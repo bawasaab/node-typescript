@@ -1,5 +1,5 @@
 import { Router, Request } from "express";
-import { fileReader, listFiles, deleteFile } from "../controllers/jetDevs";
+import { fileReader, listFileRecords, deleteFile, listFiles } from "../controllers/jetDevs";
 
 import { config } from "dotenv";
 config();
@@ -39,7 +39,8 @@ const upload = multer({
 
 const router = Router();
 
-router.get('/list', listFiles);
+router.get('/list', listFileRecords);
+router.get('/list-files', listFiles);
 router.post('/:filename', upload.single('uploaded_file'), fileReader);
 router.delete('/:id', deleteFile);
 

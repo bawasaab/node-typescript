@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteById = exports.getById = exports.getFiles = exports.insert = exports.insertTest = exports.getTest = void 0;
+exports.getFiles = exports.deleteById = exports.getById = exports.getFileRecords = exports.insert = exports.insertTest = exports.getTest = void 0;
 const connection_1 = __importDefault(require("../db/connection"));
 let obj = new connection_1.default();
 const getTest = async (data) => {
@@ -48,7 +48,7 @@ const insert = async (data) => {
     }
 };
 exports.insert = insert;
-const getFiles = async () => {
+const getFileRecords = async () => {
     try {
         let db = await obj.connect();
         const [rows, fields] = await db.execute('SELECT * FROM `fileuploads`', []);
@@ -61,7 +61,7 @@ const getFiles = async () => {
         throw ex;
     }
 };
-exports.getFiles = getFiles;
+exports.getFileRecords = getFileRecords;
 const getById = async (id) => {
     let db = await obj.connect();
     const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [id]);
@@ -80,3 +80,15 @@ const deleteById = async (id) => {
     };
 };
 exports.deleteById = deleteById;
+const getFiles = async () => {
+    try {
+        const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+        const fs = require('fs');
+        const files = await fs.promises.readdir(FILE_UPLOAD_PATH);
+        return files;
+    }
+    catch (ex) {
+        throw ex;
+    }
+};
+exports.getFiles = getFiles;

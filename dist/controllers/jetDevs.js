@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFile = exports.listFiles = exports.fileReader = exports.insertTestC = void 0;
+exports.listFiles = exports.deleteFile = exports.listFileRecords = exports.fileReader = exports.insertTestC = void 0;
 const reader = __importStar(require("xlsx"));
 const jetdevs_1 = require("../services/jetdevs");
 const dotenv_1 = require("dotenv");
@@ -70,9 +70,9 @@ const fileReader = async (req, res, next) => {
     }
 };
 exports.fileReader = fileReader;
-const listFiles = async (req, res, next) => {
+const listFileRecords = async (req, res, next) => {
     try {
-        let result = await (0, jetdevs_1.getFiles)();
+        let result = await (0, jetdevs_1.getFileRecords)();
         res.status(200).send({
             result
         });
@@ -81,14 +81,14 @@ const listFiles = async (req, res, next) => {
         throw ex;
     }
 };
-exports.listFiles = listFiles;
+exports.listFileRecords = listFileRecords;
 const deleteFile = async (req, res, next) => {
     try {
         let id = req.params.id;
         let result = await (0, jetdevs_1.getById)(id);
         if (result && result.rows.length) {
             let row = result.rows[0];
-            var fs = require('fs');
+            const fs = require('fs');
             let filePath = row.filepath;
             fs.unlinkSync(filePath);
             let isDeleted = await (0, jetdevs_1.deleteById)(id);
@@ -102,3 +102,15 @@ const deleteFile = async (req, res, next) => {
     }
 };
 exports.deleteFile = deleteFile;
+const listFiles = async (req, res, next) => {
+    try {
+        let files = await (0, jetdevs_1.getFiles)();
+        res.status(200).send({
+            files
+        });
+    }
+    catch (ex) {
+        throw ex;
+    }
+};
+exports.listFiles = listFiles;

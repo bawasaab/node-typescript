@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as reader from "xlsx";
-import { insert, insertTest, getFiles, getById, deleteById } from "../services/jetdevs";
+import { insert, insertTest, getFiles, getFileRecords, getById, deleteById } from "../services/jetdevs";
 
 import { config } from "dotenv";
 import { Jetdevs } from "../models/jetdevs";
@@ -57,10 +57,10 @@ export const fileReader: RequestHandler = async (req, res, next) => {
     }    
 }
 
-export const listFiles:  RequestHandler = async (req, res, next) => {
+export const listFileRecords:  RequestHandler = async (req, res, next) => {
     try {
 
-        let result = await getFiles();
+        let result = await getFileRecords();
         res.status(200).send({
             result
         });
@@ -78,7 +78,7 @@ export const deleteFile: RequestHandler = async (req, res, next) => {
         if( result && result.rows.length ) {
             let row = result.rows[0];
             
-            var fs = require('fs');
+            const fs = require('fs');
             let filePath = row.filepath;
             fs.unlinkSync(filePath);
 
@@ -88,6 +88,18 @@ export const deleteFile: RequestHandler = async (req, res, next) => {
                 isDeleted
             });
         }
+    } catch(ex) {
+        throw ex;
+    }
+}
+
+export const listFiles: RequestHandler = async (req, res, next) => {
+    try {
+
+        let files = await getFiles();
+        res.status(200).send({
+           files
+        });
     } catch(ex) {
         throw ex;
     }
