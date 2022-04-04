@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const jetDevs_1 = require("../controllers/jetDevs");
+const auths_1 = require("../controllers/auths");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const path_1 = __importDefault(require("path"));
@@ -36,7 +37,7 @@ const upload = (0, multer_1.default)({
     limits: { fileSize: 1000000 } // (1000000 bytes = 1MB)
 });
 const router = (0, express_1.Router)();
-router.get('/list', jetDevs_1.listFileRecords);
+router.get('/list', [auths_1.verifyToken], jetDevs_1.listFileRecords);
 router.get('/list-files', jetDevs_1.listFiles);
 router.post('/:filename', upload.single('uploaded_file'), jetDevs_1.fileReader);
 router.delete('/:id', jetDevs_1.deleteFile);

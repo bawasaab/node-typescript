@@ -36,10 +36,16 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
             (req as unknown as {authData: any}).authData = result;
             next();
         } else{
-            throw 'Header is not defined.';
+            // throw 'Header is not defined.';
+            res.status(500).send({
+                msg: 'Header is not defined.'
+            }); 
         }
-    } catch(ex) {
-        throw ex;
+    } catch(ex: any) {
+        // throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 }
 
@@ -58,9 +64,15 @@ export const decodeToken: RequestHandler = async (req, res, next) => {
             (req as unknown as {authData: any}).authData = result;
             res.status(200).send(result);
         } else{
-            throw 'Header is not defined.';
+            // throw 'Header is not defined.';
+            res.status(500).send({
+                msg: 'Header is not defined.'
+            }); 
         }
-    } catch(ex) {
-        throw ex;
+    } catch(ex: any) {
+        // throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 }

@@ -33,11 +33,17 @@ const verifyToken = async (req, res, next) => {
             next();
         }
         else {
-            throw 'Header is not defined.';
+            // throw 'Header is not defined.';
+            res.status(500).send({
+                msg: 'Header is not defined.'
+            });
         }
     }
     catch (ex) {
-        throw ex;
+        // throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.verifyToken = verifyToken;
@@ -54,11 +60,17 @@ const decodeToken = async (req, res, next) => {
             res.status(200).send(result);
         }
         else {
-            throw 'Header is not defined.';
+            // throw 'Header is not defined.';
+            res.status(500).send({
+                msg: 'Header is not defined.'
+            });
         }
     }
     catch (ex) {
-        throw ex;
+        // throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.decodeToken = decodeToken;
