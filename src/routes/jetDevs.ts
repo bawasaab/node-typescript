@@ -9,6 +9,8 @@ import path from "path";
 import multer from "multer";
 
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+const USER = process.env.USER;
+const ADMIN = process.env.ADMIN;
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file: any, cb: any) {
@@ -40,9 +42,9 @@ const upload = multer({
 
 const router = Router();
 
-router.get('/list', [verifyToken, HasRole(['USER', 'ADMIN'])], listFileRecords);
-router.get('/list-files', listFiles);
-router.post('/:filename', upload.single('uploaded_file'), fileReader);
-router.delete('/:id', deleteFile);
+router.get('/list', [verifyToken, HasRole([USER!, ADMIN!])], listFileRecords);
+router.get('/list-files', [verifyToken, HasRole([USER!, ADMIN!])], listFiles);
+router.post('/:filename', [verifyToken, HasRole([ADMIN!])], upload.single('uploaded_file'), fileReader);
+router.delete('/:id', [verifyToken, HasRole([ADMIN!])], deleteFile);
 
 export default router;

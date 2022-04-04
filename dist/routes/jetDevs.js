@@ -11,6 +11,8 @@ const dotenv_1 = require("dotenv");
 const path_1 = __importDefault(require("path"));
 const multer_1 = __importDefault(require("multer"));
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+const USER = process.env.USER;
+const ADMIN = process.env.ADMIN;
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         cb(null, FILE_UPLOAD_PATH);
@@ -37,8 +39,8 @@ const upload = (0, multer_1.default)({
     limits: { fileSize: 1000000 } // (1000000 bytes = 1MB)
 });
 const router = (0, express_1.Router)();
-router.get('/list', [auths_1.verifyToken, (0, auths_1.HasRole)(['USER', 'ADMIN'])], jetDevs_1.listFileRecords);
-router.get('/list-files', jetDevs_1.listFiles);
-router.post('/:filename', upload.single('uploaded_file'), jetDevs_1.fileReader);
-router.delete('/:id', jetDevs_1.deleteFile);
+router.get('/list', [auths_1.verifyToken, (0, auths_1.HasRole)([USER, ADMIN])], jetDevs_1.listFileRecords);
+router.get('/list-files', [auths_1.verifyToken, (0, auths_1.HasRole)([USER, ADMIN])], jetDevs_1.listFiles);
+router.post('/:filename', [auths_1.verifyToken, (0, auths_1.HasRole)([ADMIN])], upload.single('uploaded_file'), jetDevs_1.fileReader);
+router.delete('/:id', [auths_1.verifyToken, (0, auths_1.HasRole)([ADMIN])], jetDevs_1.deleteFile);
 exports.default = router;
