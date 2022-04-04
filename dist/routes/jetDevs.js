@@ -40,6 +40,6 @@ const upload = (0, multer_1.default)({
 });
 const router = (0, express_1.Router)();
 router.post('/', jetDevs_1.fileReader);
-router.post('/upload/:id', upload.single('profile_pic'), jetDevs_1.uploadFile);
+router.post('/upload/:id', upload.single('uploaded_file'), jetDevs_1.uploadFile);
 router.post('/test', jetDevs_1.insertTestC);
 exports.default = router;

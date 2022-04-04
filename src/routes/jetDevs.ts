@@ -44,7 +44,7 @@ const router = Router();
 
 router.post('/', fileReader);
 
-router.post('/upload/:id', upload.single('profile_pic'), uploadFile);
+router.post('/upload/:id', upload.single('uploaded_file'), uploadFile);
 
 router.post('/test', insertTestC);
 
