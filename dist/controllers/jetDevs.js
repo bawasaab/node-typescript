@@ -22,10 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.listFiles = exports.deleteFile = exports.getFileById = exports.listFileRecords = exports.fileReader = exports.insertTestC = void 0;
+const moment_1 = __importDefault(require("moment"));
 const reader = __importStar(require("xlsx"));
 const jetdevs_1 = require("../services/jetdevs");
+const logs_1 = require("../services/logs");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
@@ -90,9 +95,20 @@ const getFileById = async (req, res, next) => {
         let result = await (0, jetdevs_1.getById)(id);
         if (result && result.rows.length) {
             let row = result.rows[0];
+            let currentUser = req.authData.user;
+            let user_id = currentUser['id'];
+            let log = {
+                file_id: id,
+                user_id: user_id,
+                last_access: (0, moment_1.default)().format('YYYY-MM-DD h:mm:ss').toString()
+            };
+            let logData = await (0, logs_1.insertLogs)(log);
             res.status(200).send({
                 msg: 'Record found',
-                data: row
+                data: {
+                    row,
+                    logData
+                }
             });
         }
         else {

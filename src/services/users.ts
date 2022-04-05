@@ -43,7 +43,7 @@ export const updateUsers = async (data: User, id: Number) => {
     try {
   
       let db = await obj.connect();
-      const [rows] = await db.execute('UPDATE users SET email=?, password=?, role=?', [data.email, data.password, data.role]);
+      const [rows] = await db.execute('UPDATE users SET email=?, password=?, role=? where id=?', [data.email, data.password, data.role, id]);
       return {
         rows
       };

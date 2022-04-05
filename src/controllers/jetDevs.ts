@@ -1,9 +1,12 @@
 import { RequestHandler } from "express";
+import moment from "moment";
 import * as reader from "xlsx";
 import { insert, insertTest, getFiles, getFileRecords, getById, deleteById } from "../services/jetdevs";
+import { insertLogs } from "../services/logs";
 
 import { config } from "dotenv";
 import { Jetdevs } from "../models/jetdevs";
+import { Logs } from "../models/logs";
 config();
 
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
@@ -74,9 +77,21 @@ export const getFileById: RequestHandler = async (req, res, next) => {
         let result = await getById(id);
         if( result && result.rows.length ) {
             let row = result.rows[0];
+
+            let currentUser = <never>(req as unknown as {authData: any}).authData.user;
+            let user_id = currentUser['id'];
+            let log: Logs = {
+                file_id: id,
+                user_id: user_id,
+                last_access: moment().format('YYYY-MM-DD h:mm:ss').toString()
+            };
+            let logData = await insertLogs(log);
             res.status(200).send({
                 msg: 'Record found',
-                data: row
+                data: {
+                    row,
+                    logData
+                }
             });
         } else {
             res.status(200).send({
