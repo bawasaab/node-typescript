@@ -1,5 +1,5 @@
 import { Router, Request } from "express";
-import { fileReader, listFileRecords, deleteFile, listFiles } from "../controllers/jetDevs";
+import { fileReader, listFileRecords, deleteFile, listFiles, getFileById } from "../controllers/jetDevs";
 import { verifyToken, HasRole } from "../controllers/auths";
 
 import { config } from "dotenv";
@@ -46,5 +46,6 @@ router.get('/list', [verifyToken, HasRole([USER!, ADMIN!])], listFileRecords);
 router.get('/list-files', [verifyToken, HasRole([USER!, ADMIN!])], listFiles);
 router.post('/:filename', [verifyToken, HasRole([ADMIN!])], upload.single('uploaded_file'), fileReader);
 router.delete('/:id', [verifyToken, HasRole([ADMIN!])], deleteFile);
+router.get('/:id', [verifyToken, HasRole([USER!, ADMIN!])], getFileById);
 
 export default router;

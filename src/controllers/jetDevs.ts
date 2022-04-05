@@ -67,6 +67,29 @@ export const listFileRecords: RequestHandler = async (req, res, next) => {
     }  
 }
 
+export const getFileById: RequestHandler = async (req, res, next) => {
+    try {
+
+        let id = (req.params as unknown as {id: Number}).id;
+        let result = await getById(id);
+        if( result && result.rows.length ) {
+            let row = result.rows[0];
+            res.status(200).send({
+                msg: 'Record found',
+                data: row
+            });
+        } else {
+            res.status(200).send({
+                msg: 'No record found',
+            });
+        }
+    } catch(ex: any) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
+    } 
+}
+
 export const deleteFile: RequestHandler = async (req, res, next) => {
 
     try {
@@ -84,6 +107,10 @@ export const deleteFile: RequestHandler = async (req, res, next) => {
 
             res.status(200).send({
                 isDeleted
+            });
+        } else {
+            res.status(200).send({
+                msg: 'No record found',
             });
         }
     } catch(ex: any) {

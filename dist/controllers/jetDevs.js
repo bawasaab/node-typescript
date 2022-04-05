@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listFiles = exports.deleteFile = exports.listFileRecords = exports.fileReader = exports.insertTestC = void 0;
+exports.listFiles = exports.deleteFile = exports.getFileById = exports.listFileRecords = exports.fileReader = exports.insertTestC = void 0;
 const reader = __importStar(require("xlsx"));
 const jetdevs_1 = require("../services/jetdevs");
 const dotenv_1 = require("dotenv");
@@ -84,6 +84,30 @@ const listFileRecords = async (req, res, next) => {
     }
 };
 exports.listFileRecords = listFileRecords;
+const getFileById = async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        let result = await (0, jetdevs_1.getById)(id);
+        if (result && result.rows.length) {
+            let row = result.rows[0];
+            res.status(200).send({
+                msg: 'Record found',
+                data: row
+            });
+        }
+        else {
+            res.status(200).send({
+                msg: 'No record found',
+            });
+        }
+    }
+    catch (ex) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
+    }
+};
+exports.getFileById = getFileById;
 const deleteFile = async (req, res, next) => {
     try {
         let id = req.params.id;
@@ -96,6 +120,11 @@ const deleteFile = async (req, res, next) => {
             let isDeleted = await (0, jetdevs_1.deleteById)(id);
             res.status(200).send({
                 isDeleted
+            });
+        }
+        else {
+            res.status(200).send({
+                msg: 'No record found',
             });
         }
     }

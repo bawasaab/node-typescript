@@ -43,4 +43,5 @@ router.get('/list', [auths_1.verifyToken, (0, auths_1.HasRole)([USER, ADMIN])], 
 router.get('/list-files', [auths_1.verifyToken, (0, auths_1.HasRole)([USER, ADMIN])], jetDevs_1.listFiles);
 router.post('/:filename', [auths_1.verifyToken, (0, auths_1.HasRole)([ADMIN])], upload.single('uploaded_file'), jetDevs_1.fileReader);
 router.delete('/:id', [auths_1.verifyToken, (0, auths_1.HasRole)([ADMIN])], jetDevs_1.deleteFile);
+router.get('/:id', [auths_1.verifyToken, (0, auths_1.HasRole)([USER, ADMIN])], jetDevs_1.getFileById);
 exports.default = router;
