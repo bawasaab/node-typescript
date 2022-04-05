@@ -11,10 +11,7 @@ export const userlogIn = async ( data: User ) => {
   try {
 
     let db = await obj.connect();
-    console.log('data', data);
-    console.log('data.email', data.email);
     const [rows, fields] = await db.execute("SELECT * FROM `users` where email=?", [data.email]);
-    console.log('rows', rows);
     return {
       rows,
       // fields

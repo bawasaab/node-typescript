@@ -13,10 +13,7 @@ let obj = new connection_1.default();
 const userlogIn = async (data) => {
     try {
         let db = await obj.connect();
-        console.log('data', data);
-        console.log('data.email', data.email);
         const [rows, fields] = await db.execute("SELECT * FROM `users` where email=?", [data.email]);
-        console.log('rows', rows);
         return {
             rows,
             // fields

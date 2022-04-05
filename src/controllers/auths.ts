@@ -16,8 +16,11 @@ export const logIn: RequestHandler = async (req, res, next) => {
             result,
             token: await jwtSign(result)
         });
-    } catch( ex ) {
-        throw ex;
+    } catch( ex: any ) {
+        // throw ex;
+        res.status(500).json({
+            msg: ex.toString(),
+        });
     }
 }
 

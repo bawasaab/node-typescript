@@ -16,7 +16,10 @@ const logIn = async (req, res, next) => {
         });
     }
     catch (ex) {
-        throw ex;
+        // throw ex;
+        res.status(500).json({
+            msg: ex.toString(),
+        });
     }
 };
 exports.logIn = logIn;

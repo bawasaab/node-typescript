@@ -46,8 +46,10 @@ export const fileReader: RequestHandler = async (req, res, next) => {
             in_data,
             result
         });
-    } catch(ex) {
-        throw ex;
+    } catch(ex: any) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }    
 }
 
@@ -58,9 +60,11 @@ export const listFileRecords: RequestHandler = async (req, res, next) => {
         res.status(200).send({
             result
         });
-    } catch(ex) {
-        throw ex;
-    }
+    } catch(ex: any) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
+    }  
 }
 
 export const deleteFile: RequestHandler = async (req, res, next) => {
@@ -82,9 +86,11 @@ export const deleteFile: RequestHandler = async (req, res, next) => {
                 isDeleted
             });
         }
-    } catch(ex) {
-        throw ex;
-    }
+    } catch(ex: any) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
+    }  
 }
 
 export const listFiles: RequestHandler = async (req, res, next) => {
@@ -94,7 +100,9 @@ export const listFiles: RequestHandler = async (req, res, next) => {
         res.status(200).send({
            files
         });
-    } catch(ex) {
-        throw ex;
-    }
+    } catch(ex: any) {
+        res.status(500).send({
+            msg: ex.toString(),
+        });
+    }  
 }

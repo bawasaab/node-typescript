@@ -64,7 +64,9 @@ const fileReader = async (req, res, next) => {
         });
     }
     catch (ex) {
-        throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.fileReader = fileReader;
@@ -76,7 +78,9 @@ const listFileRecords = async (req, res, next) => {
         });
     }
     catch (ex) {
-        throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.listFileRecords = listFileRecords;
@@ -96,7 +100,9 @@ const deleteFile = async (req, res, next) => {
         }
     }
     catch (ex) {
-        throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.deleteFile = deleteFile;
@@ -108,7 +114,9 @@ const listFiles = async (req, res, next) => {
         });
     }
     catch (ex) {
-        throw ex;
+        res.status(500).send({
+            msg: ex.toString(),
+        });
     }
 };
 exports.listFiles = listFiles;
