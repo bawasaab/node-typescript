@@ -34,6 +34,7 @@ const logs_1 = require("../services/logs");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+const USER = process.env.USER;
 const insertTestC = async (req, res, next) => {
     let in_data = {
         data: 'data',
@@ -97,12 +98,14 @@ const getFileById = async (req, res, next) => {
             let row = result.rows[0];
             let currentUser = req.authData.user;
             let user_id = currentUser['id'];
+            let user_role = currentUser['role'];
             let log = {
                 file_id: id,
                 user_id: user_id,
                 last_access: (0, moment_1.default)().format('YYYY-MM-DD h:mm:ss').toString()
             };
-            let logData = await (0, logs_1.insertLogs)(log);
+            let logData;
+            user_role == USER ? logData = await (0, logs_1.insertLogs)(log) : '';
             res.status(200).send({
                 msg: 'Record found',
                 data: {

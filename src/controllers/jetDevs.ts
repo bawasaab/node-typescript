@@ -10,6 +10,7 @@ import { Logs } from "../models/logs";
 config();
 
 const FILE_UPLOAD_PATH = process.env.FILE_UPLOAD_PATH;
+const USER = process.env.USER;
 
 export const insertTestC: RequestHandler = async (req, res, next) => {
     let in_data: Jetdevs = {
@@ -80,12 +81,15 @@ export const getFileById: RequestHandler = async (req, res, next) => {
 
             let currentUser = <never>(req as unknown as {authData: any}).authData.user;
             let user_id = currentUser['id'];
+            let user_role = currentUser['role'];
             let log: Logs = {
                 file_id: id,
                 user_id: user_id,
                 last_access: moment().format('YYYY-MM-DD h:mm:ss').toString()
             };
-            let logData = await insertLogs(log);
+
+            let logData;
+            user_role == USER ? logData = await insertLogs(log) : '';
             res.status(200).send({
                 msg: 'Record found',
                 data: {
