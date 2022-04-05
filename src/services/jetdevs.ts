@@ -63,7 +63,20 @@ export const getFileRecords = async() => {
 
 export const getById = async(id: Number) => {
   let db = await obj.connect();
-    const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [id]);
+    // const [rows, fields] = await db.execute('SELECT * FROM `fileuploads` WHERE `id` = ?', [id]);
+    const [rows, fields] = await db.execute(`
+      SELECT 
+        fu.*, 
+        l.last_access as last_access, 
+        u.id as user_id, 
+        u.email as user_email 
+      FROM fileuploads as fu 
+      LEFT JOIN logs as l 
+        ON fu.id = l.file_id 
+      LEFT JOIN users as u 
+        ON u.id = l.user_id 
+      WHERE fu.id=?`, 
+      [id]);
     return {
       rows,
       // fields
