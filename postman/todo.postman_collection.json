@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "5d947a38-a805-4d8b-b24f-6a5dd3752167",
+		"name": "todo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "2. users",
+			"item": [
+				{
+					"name": "201. create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "user@yopmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "role",
+									"value": "USER",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "202. list user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "203. get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "204. update user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@yopmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "ADMIN",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "205. delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "01",
+			"item": [
+				{
+					"name": "1. create todo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/jetdevs/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. get todo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/todos/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"todos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. update todo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Finished the cource2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/todos/0.8529849363591655",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"todos",
+								"0.8529849363591655"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. delete todo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/todos/0.5572105782381331",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"todos",
+								"0.5572105782381331"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. create test jetdevs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/test",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. create jetdevs upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/upload/deepak",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"upload",
+								"deepak"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. create jetdevs insert sheet data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFkbWluQHlvcG1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJyb2xlIjoiQURNSU4ifSwiaWF0IjoxNjQ5MTQxMjQ1LCJleHAiOjE2NDkxNDQ4NDV9.wXw61SkNgjXNELRWX1MPce1CIuNu0oIkjBMzsmOz3O4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/deepak-bawa",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"deepak-bawa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. jetdevs list file records",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFkbWluQHlvcG1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJyb2xlIjoiQURNSU4ifSwiaWF0IjoxNjQ5MTQxMjQ1LCJleHAiOjE2NDkxNDQ4NDV9.wXw61SkNgjXNELRWX1MPce1CIuNu0oIkjBMzsmOz3O4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/list",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. jetdevs delete file",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. jetdevs list files",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFkbWluQHlvcG1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJyb2xlIjoiQURNSU4ifSwiaWF0IjoxNjQ5MTQxMjQ1LCJleHAiOjE2NDkxNDQ4NDV9.wXw61SkNgjXNELRWX1MPce1CIuNu0oIkjBMzsmOz3O4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/jetdevs/list-files",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"list-files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. jetdevs serve as static files",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/deepak-bawa-1649064811755-0.7099306865752422.xlsx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"deepak-bawa-1649064811755-0.7099306865752422.xlsx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10. jetdevs file by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbWFpbCI6InVzZXJAeW9wbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsInJvbGUiOiJVU0VSIn0sImlhdCI6MTY0OTE0MTY5MiwiZXhwIjoxNjQ5MTQ1MjkyfQ.GOCwyxjX31A8frmtHO9NKdFqHGCcAlgliAcuTBbRm-0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploaded_file",
+									"type": "file",
+									"src": "/C:/test/node-typescript/abc.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/jetdevs/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jetdevs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. auth",
+			"item": [
+				{
+					"name": "301. user login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@yopmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "302. verify token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbWFpbCI6ImJhd2FfZEB5bWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsInJvbGUiOiJVU0VSIn0sImlhdCI6MTY0OTA3NzM0MCwiZXhwIjoxNjQ5MDgwOTQwfQ.7j8390lWAwfgAIY3vP7p53w9b1HqPqCPt3GW23By2MI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/auth/decodeToken",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"decodeToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
